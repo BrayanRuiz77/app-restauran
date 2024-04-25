@@ -1,68 +1,65 @@
 body {
-  font-family: Arial, sans-serif;
-  background-image: url('./lo.jpg');
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  transition: transform 0.3s;
+    font-family: Arial, sans-serif;
+    background-image: url('./lo.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    transition: transform 0.3s;
 }
 
 body:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .contenedor-login {
-  width: 300px;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 2;
+    width: 300px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
 }
 
 .contenedor-login h2 {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+.contenedor-login input[type="text"],
 .contenedor-login input[type="email"],
 .contenedor-login input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
 }
 
 .contenedor-login button {
-  width: 100%;
-  padding: 10px;
-  background-color: #009688;
-  border: none;
-  color: white;
-  cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: #009688;
+    border: none;
+    color: white;
+    cursor: pointer;
 }
 
 .contenedor-login button:hover {
-  background-color: #00796b;
+    background-color: #00796b;
 }
 
-.contenedor-login button.enlace-registro {
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #009688;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
+.contenedor-login .enlace-registro {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #009688;
+    text-decoration: none;
 }
 
-.contenedor-login button.enlace-registro:hover {
-  text-decoration: none;
+.contenedor-login .enlace-registro:hover {
+    text-decoration: underline;
 }
-
