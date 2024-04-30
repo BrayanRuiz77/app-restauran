@@ -12,7 +12,6 @@ function RegisterForm({ onRegister }) {
     console.log('Email:', email);
     console.log('Contraseña:', password);
 
-    // Llamar a la función onRegister del componente padre
     onRegister({ nombre, apellido, email, password });
   }
 
