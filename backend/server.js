@@ -1,18 +1,20 @@
 const express = require('express');
-const mysql = require("mysql")
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 3000;
 
+// Middleware para parsear el cuerpo de las solicitudes
+app.use(bodyParser.json());
 
 // Configuración de la conexión a la base de datos
-
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: "root",
-  password:'',
-  database:'login_restaurante',
-  port : 3306
+  user: 'root',
+  password: '',
+  database: 'login_restaurante',
+  port: 3306,
 });
 
 // Conexión a la base de datos
@@ -24,42 +26,40 @@ connection.connect((err) => {
   console.log('Conexión establecida con la base de datos');
 });
 
-// Ruta para registrar un nuevo usuario
+// Ruta de registro
 app.post('/register', (req, res) => {
-
   const { nombre, apellido, email, password } = req.body;
-  const newUser = { nombre, apellido, email, password };
-  connection.query('INSERT INTO usuarios SET ?', newUser, (err, result) => {
+
+  const query = 'INSERT INTO usuarios (nombre, apellido, email, password) VALUES (?, ?, ?, ?)';
+  connection.query(query, [nombre, apellido, email, password], (err, results) => {
     if (err) {
-      console.error('Error al registrar usuario:', err);
-      res.status(500).send('Error al registrar usuario');
-      return;
+      console.error('Error al registrar el usuario:', err);
+      return res.status(500).json({ message: 'Error al registrar el usuario' });
     }
-    console.log('Usuario registrado exitosamente');
-    res.status(200).send('Usuario registrado exitosamente');
+    res.status(200).json({ message: 'Usuario registrado exitosamente' });
   });
 });
 
-// Ruta para iniciar sesión
+// Ruta de inicio de sesión
 app.post('/login', (req, res) => {
-  
   const { email, password } = req.body;
-  connection.query('SELECT * FROM usuarios WHERE email = ? AND password = ?', [email, password], (err, result) => {
+
+  const query = 'SELECT * FROM usuarios WHERE email = ? AND password = ?';
+  connection.query(query, [email, password], (err, results) => {
     if (err) {
       console.error('Error al iniciar sesión:', err);
-      res.status(500).send('Error al iniciar sesión');
-      return;
+      return res.status(500).json({ message: 'Error al iniciar sesión' });
     }
-    if (result.length === 0) {
-      console.log('Credenciales incorrectas');
-      res.status(401).send('Credenciales incorrectas');
-      return;
+
+    if (results.length > 0) {
+      res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    } else {
+      res.status(401).json({ message: 'Credenciales incorrectas' });
     }
-    console.log('Inicio de sesión exitoso');
-    res.status(200).send('Inicio de sesión exitoso');
   });
 });
 
-  app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-  });
+// Iniciar el servidor
+app.listen(PORT, () => {
+  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+});

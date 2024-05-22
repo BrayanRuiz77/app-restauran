@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
-import './App.css';
 import RegisterForm from './RegisterForm';
 
-function ExternalLoginForm() {
+function ExternalLoginForm({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   function toggleForm() {
     setIsLogin(!isLogin);
+    setError('');
   }
 
-  function iniciarSesion() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+  async function iniciarSesion(e) {
+    e.preventDefault();
 
-    console.log('Email:', email);
-    console.log('Contraseña:', password);
+    if (!email || !password) {
+      setError('Por favor, rellena todos los campos.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Inicio de sesión exitoso:', data);
+        onLoginSuccess();
+      } else {
+        setError(data.message || 'Error al iniciar sesión');
+      }
+    } catch (error) {
+      setError('Error de conexión con el servidor');
+    }
   }
 
   function handleRegister(data) {
@@ -27,10 +52,23 @@ function ExternalLoginForm() {
       <h2>{isLogin ? 'Inicio de sesión' : 'Registro'}</h2>
 
       {isLogin ? (
-        <form>
-          <input type="email" id="email" placeholder="Email" />
-          <input type="password" id="password" placeholder="Contraseña" />
-          <button type="button" onClick={iniciarSesion}>INICIAR SESIÓN</button>
+        <form onSubmit={iniciarSesion}>
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            id="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className="error">{error}</p>}
+          <button type="submit">INICIAR SESIÓN</button>
         </form>
       ) : (
         <RegisterForm onRegister={handleRegister} />
