@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ExternalLoginForm from './ExternalLoginForm';
 import PantallaInicio from './PantallaInicio';
 
@@ -14,15 +14,11 @@ function App() {
 
   return (
     <Router>
-      <Switch>
-        <Route path="/login">
-          {isLoggedIn ? <Redirect to="/inicio" /> : <ExternalLoginForm onLoginSuccess={handleLoginSuccess} />}
-        </Route>
-        <Route path="/inicio">
-          {isLoggedIn ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Redirect to="/login" />}
-        </Route>
-        <Redirect from="/" to="/login" />
-      </Switch>
+      <Routes>
+        <Route path="/login" element={<ExternalLoginForm onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/inicio" element={isLoggedIn ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Navigate to="/login" />} />
+        <Route path="/*" element={<Navigate to="/login" />} />
+      </Routes>
     </Router>
   );
 }
