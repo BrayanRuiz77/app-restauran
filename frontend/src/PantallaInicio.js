@@ -1,36 +1,31 @@
 import React from 'react';
-import './PantallaInicio.css';
-import UserLogo from './UserLogo';
 
 function PantallaInicio({ nombre, apellido }) {
-  const handleNavLinkClick = (event) => {
-    event.preventDefault();
-    const navLinks = document.querySelectorAll('nav ul li a');
-    navLinks.forEach((link) => link.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-  };
-
   return (
     <div>
       <header>
         <nav>
           <ul>
-            <li><a href="#" className="active" onClick={handleNavLinkClick}>Inicio</a></li>
-            <li><a href="#" onClick={handleNavLinkClick}>Menú</a></li>
-            <li><a href="#" onClick={handleNavLinkClick}>Reserva una mesa</a></li>
-            <li><a href="#" onClick={handleNavLinkClick}>Acerca de</a></li>
-            <li><a href="#" onClick={handleNavLinkClick}>Horario y ubicaciones</a></li>
+            <li><a href="#" className="active">Inicio</a></li>
+            <li><a href="#">Menú</a></li>
+            <li><a href="#">Reserva una mesa</a></li>
+            <li><a href="#">Acerca de</a></li>
+            <li><a href="#">Horario y ubicaciones</a></li>
+            <li style={{ float: 'right' }}>
+              <a href="#">
+                {nombre.charAt(0)}{apellido.charAt(0)}
+              </a>
+            </li>
           </ul>
         </nav>
-        <UserLogo nombre={nombre} apellido={apellido} />
       </header>
-      
+
       <section className="main-content">
         <div className="hero">
           <h1>RESTAURANT JAM DELIGHTS</h1>
         </div>
       </section>
-      
+
       <footer>
         {/* Información de contacto, derechos de autor, enlaces a redes sociales, etc. */}
       </footer>

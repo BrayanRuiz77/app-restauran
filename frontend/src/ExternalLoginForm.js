@@ -1,68 +1,29 @@
 import React, { useState } from 'react';
+import './App.css';
 import RegisterForm from './RegisterForm';
 
 function ExternalLoginForm({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   function toggleForm() {
     setIsLogin(!isLogin);
-    setError('');
   }
 
-  async function iniciarSesion(e) {
-    e.preventDefault();
+  function iniciarSesion() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
 
-    if (!email || !password) {
-      setError('Por favor, rellena todos los campos.');
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log('Inicio de sesión exitoso:', data);
-        onLoginSuccess(data);
-      } else {
-        setError(data.message || 'Error al iniciar sesión');
-      }
-    } catch (error) {
-      setError('Error de conexión con el servidor');
+    // Aquí deberías hacer la llamada a la API para verificar las credenciales
+    // Simularemos una respuesta exitosa
+    if (email === "test@example.com" && password === "password") {
+      const userData = { nombre: 'John', apellido: 'Doe' };
+      onLoginSuccess(userData);
     }
   }
 
-  async function handleRegister(data) {
-    try {
-      const response = await fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log('Registro exitoso:', result);
-        setIsLogin(true);
-      } else {
-        setError(result.message || 'Error al registrar');
-      }
-    } catch (error) {
-      setError('Error de conexión con el servidor');
-    }
+  function handleRegister(data) {
+    console.log('Datos de registro:', data);
+    // Aquí puedes agregar la lógica para enviar los datos a tu base de datos
   }
 
   return (
@@ -70,23 +31,10 @@ function ExternalLoginForm({ onLoginSuccess }) {
       <h2>{isLogin ? 'Inicio de sesión' : 'Registro'}</h2>
 
       {isLogin ? (
-        <form onSubmit={iniciarSesion}>
-          <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            id="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">INICIAR SESIÓN</button>
+        <form>
+          <input type="email" id="email" placeholder="Email" />
+          <input type="password" id="password" placeholder="Contraseña" />
+          <button type="button" onClick={iniciarSesion}>INICIAR SESIÓN</button>
         </form>
       ) : (
         <RegisterForm onRegister={handleRegister} />
