@@ -5,9 +5,11 @@ import PantallaInicio from './PantallaInicio';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({ nombre: '', apellido: '' });
 
-  function handleLoginSuccess() {
+  function handleLoginSuccess(userData) {
     setIsLoggedIn(true);
+    setUser(userData);
   }
 
   return (
@@ -17,7 +19,7 @@ function App() {
           {isLoggedIn ? <Redirect to="/inicio" /> : <ExternalLoginForm onLoginSuccess={handleLoginSuccess} />}
         </Route>
         <Route path="/inicio">
-          {isLoggedIn ? <PantallaInicio /> : <Redirect to="/login" />}
+          {isLoggedIn ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Redirect to="/login" />}
         </Route>
         <Redirect from="/" to="/login" />
       </Switch>

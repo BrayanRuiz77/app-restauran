@@ -39,25 +39,29 @@ app.post('/register', (req, res) => {
     res.status(200).json({ message: 'Usuario registrado exitosamente' });
   });
 });
-
-// Ruta de inicio de sesión
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-
-  const query = 'SELECT * FROM usuarios WHERE email = ? AND password = ?';
-  connection.query(query, [email, password], (err, results) => {
+  const query = 'SELECT * FROM usuarios WHERE email = ?';
+  connection.query(query, [email], async (err, results) => {
     if (err) {
-      console.error('Error al iniciar sesión:', err);
-      return res.status(500).json({ message: 'Error al iniciar sesión' });
+      console.error('Error al buscar usuario:', err);
+      res.status(500).send({ message: 'Error al buscar usuario' });
+      return;
     }
-
-    if (results.length > 0) {
-      res.status(200).json({ message: 'Inicio de sesión exitoso' });
-    } else {
-      res.status(401).json({ message: 'Credenciales incorrectas' });
+    if (results.length === 0) {
+      res.status(401).send({ message: 'Usuario no encontrado' });
+      return;
     }
+    const user = results[0];
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      res.status(401).send({ message: 'Contraseña incorrecta' });
+      return;
+    }
+    res.status(200).send({ message: 'Inicio de sesión exitoso', nombre: user.nombre, apellido: user.apellido });
   });
 });
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {

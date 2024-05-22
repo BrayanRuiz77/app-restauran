@@ -1,7 +1,8 @@
 import React from 'react';
 import './PantallaInicio.css';
+import UserLogo from './UserLogo';
 
-function PantallaInicio() {
+function PantallaInicio({ nombre, apellido }) {
   const handleNavLinkClick = (event) => {
     event.preventDefault();
     const navLinks = document.querySelectorAll('nav ul li a');
@@ -21,6 +22,7 @@ function PantallaInicio() {
             <li><a href="#" onClick={handleNavLinkClick}>Horario y ubicaciones</a></li>
           </ul>
         </nav>
+        <UserLogo nombre={nombre} apellido={apellido} />
       </header>
       
       <section className="main-content">

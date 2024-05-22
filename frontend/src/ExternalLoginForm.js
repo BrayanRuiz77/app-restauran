@@ -33,7 +33,7 @@ function ExternalLoginForm({ onLoginSuccess }) {
 
       if (response.ok) {
         console.log('Inicio de sesión exitoso:', data);
-        onLoginSuccess();
+        onLoginSuccess(data);
       } else {
         setError(data.message || 'Error al iniciar sesión');
       }
@@ -42,9 +42,27 @@ function ExternalLoginForm({ onLoginSuccess }) {
     }
   }
 
-  function handleRegister(data) {
-    console.log('Datos de registro:', data);
-    // Aquí puedes agregar la lógica para enviar los datos a tu base de datos
+  async function handleRegister(data) {
+    try {
+      const response = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('Registro exitoso:', result);
+        setIsLogin(true);
+      } else {
+        setError(result.message || 'Error al registrar');
+      }
+    } catch (error) {
+      setError('Error de conexión con el servidor');
+    }
   }
 
   return (
