@@ -1,4 +1,6 @@
 import React from 'react';
+import './UserLogo.css';
+import UserLogo from './UserLogo';
 
 function PantallaInicio({ nombre, apellido }) {
   return (
@@ -12,9 +14,7 @@ function PantallaInicio({ nombre, apellido }) {
             <li><a href="#">Acerca de</a></li>
             <li><a href="#">Horario y ubicaciones</a></li>
             <li style={{ float: 'right' }}>
-              <a href="#">
-                {nombre.charAt(0)}{apellido.charAt(0)}
-              </a>
+              <UserLogo nombre={nombre} apellido={apellido} />
             </li>
           </ul>
         </nav>

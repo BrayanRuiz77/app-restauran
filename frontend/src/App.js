@@ -15,9 +15,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<ExternalLoginForm onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/login" element={isLoggedIn ? <Navigate to="/inicio" /> : <ExternalLoginForm onLoginSuccess={handleLoginSuccess} />} />
         <Route path="/inicio" element={isLoggedIn ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Navigate to="/login" />} />
-        <Route path="/*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

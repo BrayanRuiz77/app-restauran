@@ -16,7 +16,7 @@ function RegisterForm({ onRegister }) {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch('URL_DE_TU_API/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,6 +45,7 @@ function RegisterForm({ onRegister }) {
         placeholder="Nombre"
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
+        required
       />
       <input
         type="text"
@@ -52,6 +53,7 @@ function RegisterForm({ onRegister }) {
         placeholder="Apellido"
         value={apellido}
         onChange={(e) => setApellido(e.target.value)}
+        required
       />
       <input
         type="email"
@@ -59,6 +61,7 @@ function RegisterForm({ onRegister }) {
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        required
       />
       <input
         type="password"
@@ -66,6 +69,7 @@ function RegisterForm({ onRegister }) {
         placeholder="Contraseña"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        required
       />
       {error && <p className="error">{error}</p>}
       <button type="submit">REGISTRARSE</button>
