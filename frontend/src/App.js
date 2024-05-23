@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ExternalLoginForm from './ExternalLoginForm';
 import PantallaInicio from './PantallaInicio';
-import './App.css'; // Importa el archivo de estilos CSS
+import './App.css'; 
 
 function App() {
   const [user, setUser] = useState(null);
