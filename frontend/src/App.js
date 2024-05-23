@@ -2,22 +2,25 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ExternalLoginForm from './ExternalLoginForm';
 import PantallaInicio from './PantallaInicio';
+import './App.css'; // Importa el archivo de estilos CSS
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({ nombre: '', apellido: '' });
+  const [user, setUser] = useState(null);
 
-  function handleLoginSuccess(userData) {
-    setIsLoggedIn(true);
+  const handleLoginSuccess = (userData) => {
     setUser(userData);
-  }
+  };
 
   return (
     <Router>
+      
       <Routes>
-        <Route path="/login" element={isLoggedIn ? <Navigate to="/inicio" /> : <ExternalLoginForm onLoginSuccess={handleLoginSuccess} />} />
-        <Route path="/inicio" element={isLoggedIn ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<ExternalLoginForm onLoginSuccess={handleLoginSuccess} />} />
+        <Route 
+          path="/pantalla-inicio" 
+          element={user ? <PantallaInicio nombre={user.nombre} apellido={user.apellido} /> : <Navigate to="/login" />} 
+        />
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

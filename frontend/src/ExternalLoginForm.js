@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import RegisterForm from './RegisterForm';
 
 function ExternalLoginForm({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   function toggleForm() {
     setIsLogin(!isLogin);
@@ -27,29 +28,30 @@ function ExternalLoginForm({ onLoginSuccess }) {
       const data = await response.json();
 
       if (response.ok) {
-        onLoginSuccess(data);
+        onLoginSuccess({ nombre: data.nombre, apellido: data.apellido });
+        navigate('/pantalla-inicio'); // Redirige a la pantalla de inicio
       } else {
-        setError(data.message || 'Error al iniciar sesión');
+        alert(data.message);
       }
     } catch (error) {
-      setError('Error de conexión con el servidor');
+      alert('Error de conexión con el servidor');
     }
   }
 
   function handleRegister(data) {
     console.log('Datos de registro:', data);
+    // Aquí puedes agregar la lógica para enviar los datos a tu base de datos
   }
 
   return (
     <div className="contenedor-login">
-      <h1>Restaurante JAM Delights</h1>
-      <h2>{isLogin ? 'Inicio de sesión' : 'Registro'}</h2>
+      
+      <h3>{isLogin ? 'Inicio de sesión' : 'Registro'}</h3>
 
       {isLogin ? (
         <form onSubmit={iniciarSesion}>
-          <input type="email" id="email" placeholder="Email" />
-          <input type="password" id="password" placeholder="Contraseña" />
-          {error && <p className="error">{error}</p>}
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Contraseña" required />
           <button type="submit">INICIAR SESIÓN</button>
         </form>
       ) : (
